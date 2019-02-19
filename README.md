@@ -25,10 +25,17 @@ That's it.
 
 # DEPENDENCIES
 BeautifulSoup
+
 SELENIUM
+
 SELENIUM CHROM DRIVER
+
 JSON
+
 SMTPLIB
+
 email.mime.multipart
+
 email.mime.text
+
 pprint
