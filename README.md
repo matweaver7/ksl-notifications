@@ -1,0 +1,1 @@
+This is a project that uses KSL, (it's like craiglist) and adds notification support. It does it through email. KSL has an undocumented api, but I've found it to be a little unreliable. The cool thing about this project is that it does most of the loading through selenium and then parses from there.
