@@ -1,4 +1,4 @@
-This is a project that uses KSL, (it's like craiglist) and adds notification support. It does it through email. KSL has an undocumented api, but I've found it to be a little unreliable. The cool thing about this project is that it does most of the loading through selenium and then parses from there.
+This is a project that uses KSL, (it's like craiglist) and adds notification support. It does it through email. KSL has an undocumented api, but I've found it to be a little unreliable. The cool thing about this project is that it does most of the loading through selenium and then parses from there. Just so we're very clear with each other. This is not intended for an in-depth example of how to get notifications from KSL. Rather it was a "I need a new car, what's something I could write in less than a day to help with that" project.
 
 # HOW TO USE
 Depending on whether you would like to querey items or cars use the getCarInfo or the GetItems files.
