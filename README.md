@@ -5,9 +5,11 @@ Depending on whether you would like to querey items or cars use the getCarInfo o
 
 In either case fill in the following info in the file you wish to use
 
-```yourEmail = "EMAIL YOU WISH TO EMAIL"
+```python
+yourEmail = "EMAIL YOU WISH TO EMAIL"
 emailUserName = "YOUR USERNAME"
-emailPassword = "YOUR EMAIL PASSWORD"```
+emailPassword = "YOUR EMAIL PASSWORD"
+```
 
 
 Then  fill in the link getting the url after you've searched the results you're interested in. 
