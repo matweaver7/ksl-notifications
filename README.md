@@ -23,19 +23,30 @@ Then  fill in the link getting the url after you've searched the results you're 
 
 That's it.
 
+# Installation
+
+1. FILL OUT THE INFO DESCRIBED IN HOW TO USE
+2. Download the chrome driver using the link under dependencies. (You may need chrome installed as well)
+3. Add the chrome driver to your path or paste it in the project directory. If using docker paste it in the project directory.
+4. Follow the steps below
+
+USING DOCKER
+`docker-compose up`
+RUN (crontab -l ; echo "* * * * * echo "Hello world" >> /var/log/cron.log") | crontab
+
+NOT USING DOCKER
+`pip install -r requirements.txt`
+Now you need to set up a cron job (or windows scheduler) to run the python scripts.
+
+By default the cron scripts were already written. All you should have to do is uncomment the desired feature, be it the search of the KSL Cars or the KSL Items.
+If you want the
+
+
 # DEPENDENCIES
 BeautifulSoup
 
 SELENIUM
 
-SELENIUM CHROM DRIVER
-
-JSON
-
-SMTPLIB
-
-email.mime.multipart
-
-email.mime.text
+SELENIUM CHROME DRIVER -- http://chromedriver.chromium.org/downloads
 
 pprint

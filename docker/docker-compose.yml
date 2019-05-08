@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  python-cron:
+    build:
+      context: ./
+      dockerfile: DOCKERFILE
+    volumes:
+      - ../:/var/tmp/
