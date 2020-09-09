@@ -3,19 +3,18 @@ FROM ubuntu
 WORKDIR /var/tmp
 ADD crontab /etc/cron.d/ksl-cron
 ADD requirements.txt /var/tmp/include/requirements.txt
+ENV TZ=America/Denver
 
 RUN ["apt-get", "update"]
 RUN ["apt-get", "install", "-y", "wget", "python3", "vim", "cron", "unzip"]
+RUN ["ln", "-snf", "/usr/share/zoneinfo/$TZ", "/etc/localtime", "&&", "echo", "$TZ", ">", "/etc/timezone"]
 RUN ["apt-get", "install", "-y", "chromium-browser"]
 RUN ["apt-get", "install", "-y", "python3-pip"]
-RUN ["wget", "https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriver_linux64.zip"]
-RUN ["ls"]
-RUN ["unzip", "chromedriver_linux64.zip"]
-RUN ["ls", "/var/tmp"]
-RUN ["rm", "chromedriver_linux64.zip"]
+RUN ["wget", "https://chromedriver.storage.googleapis.com/85.0.4183.83/chromedriver_linux64.zip"]
+RUN ["unzip", "chromedriver_linux64.zip", "-d", "/tmp/"]
 RUN ["chmod", "777", "/var/tmp/include/requirements.txt"]
 RUN ["pip3", "install", "-r", "/var/tmp/include/requirements.txt"]
-RUN ["ln", "-s", "/var/tmp/chromedriver", "/usr/bin"]
+RUN ["ln", "-s", "/tmp/chromedriver", "/usr/bin"]
 
 RUN chmod 0644 /etc/cron.d/ksl-cron
 RUN crontab /etc/cron.d/ksl-cron

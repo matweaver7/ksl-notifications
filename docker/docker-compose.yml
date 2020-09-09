@@ -6,3 +6,4 @@ services:
       dockerfile: DOCKERFILE
     volumes:
       - ../:/var/tmp/
+      - /dev/shm:/dev/shm
