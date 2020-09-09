@@ -4,7 +4,6 @@ WORKDIR /var/tmp
 ADD crontab /etc/cron.d/ksl-cron
 ADD requirements.txt /var/tmp/include/requirements.txt
 ENV TZ 'America/Denver'
-
 RUN apt-get update && \
   touch /etc/timzeone && \
   echo $TZ > /etc/timezone && \
@@ -24,7 +23,7 @@ RUN apt-get install -y google-chrome-stable python3-pip && \
   ln -s /tmp/chromedriver /usr/bin && \
   chmod 0644 /etc/cron.d/ksl-cron && \
   crontab /etc/cron.d/ksl-cron
-
+ENV USING_DOCKER 'TRUE'
 CMD ["cron", "-f"]
 
 

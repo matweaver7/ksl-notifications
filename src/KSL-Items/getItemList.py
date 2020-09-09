@@ -29,7 +29,7 @@ load_dotenv(dotenv_path=ROOT_DIR + "/../../.env")
 
 ### FEATURES
 usePushover = str_to_bool(os.getenv("SEND_PUSHOVER"))
-sendEmail = str_to_bool(os.getenv("SEND_Email"))
+sendEmail = str_to_bool(os.getenv("SEND_EMAIL"))
 
 ### Pushover Config
 pushoverAppToken = os.getenv("PUSHOVER_APP_TOKEN")
@@ -42,6 +42,7 @@ emailPassword = os.getenv("EMAIL_ACCESS_PASSWORD")
 
 ### Link Config
 link = str(os.getenv("KSL_SEARCH_LINK"))
+print(os.getenv("USING_DOCKER"))
 
 opts = Options()
 opts.add_argument("--no-sandbox") #This make Chromium reachable

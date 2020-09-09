@@ -17,48 +17,18 @@ OR
 
 # INSTALLATION
 
-Depending on whether you would like to querey items or cars use the getCarInfo or the GetItems files.
-
-In either case fill in the following info in the file you wish to use
-
-```python
-yourEmail = "EMAIL YOU WISH TO EMAIL"
-emailUserName = "YOUR USERNAME"
-emailPassword = "YOUR EMAIL PASSWORD"
-```
+Copy the `.env_copy` file and rename it `.env`
 
 #### Getting the link to search
 
-Then  fill in the link getting the url after you've searched the results you're interested in. 
+Then  fill in the link in the `.env` file after getting the url after you've searched the results you're interested in. 
 	More explanaition:
 		Go to either https://classifieds.ksl.com/ or https://www.ksl.com/auto/ depending on if you're buying a car or an item
 		Once you've filled in your desired search configuration hit search
 		Grab url from page after search has completely loaded.
 		This is the url you fill in the links section.
 
-`links = "https://classifieds.ksl.com/search/?keyword=pixel&zip=&miles=25&priceFrom=%2480&priceTo=%24350&marketType%5B%5D=Sale&city=&state=&sort=0"`
-
-#### Setting up email
-
-To get the email username and emailpassword listed above you need to get access to your gmail account. Here are the gmail links below on how to do that
-https://support.google.com/accounts/answer/185833?hl=en
-https://myaccount.google.com/apppasswords
-
-#### Running in commandline (no docker)
-`pip install -r requirements.txt`
-
-OR
-
-`pip3 install -r  requirements.txt`
-
-##### Setting up Chromedriver
-
-*SKIP THIS IF USING DOCKER*
-
-If running locally and not in the docker you need to have google chrome installed. You then need to go download your google chrome driver that matches your google chrome version.
-http://chromedriver.chromium.org/downloads
-
-After you've downloaded it you need to include it in your PATH enviroment variable. How you will do this will depend on which OS you're running.
+`KSL_SEARCH_LINK="https://classifieds.ksl.com/search/FREE/FREE-items-only-no-businesses"`
 
 
 #### Docker and Cron setup
@@ -69,7 +39,54 @@ you'll need to go into the `DOCKERFILE` and change the `ENV TZ=America/Denver` l
 
 You'll aslo have to the `crontab` file and uncomment/comment out the one you want to use. It defaults to the KSL Classifieds for items. If desired you can also change the intervals. Right now it runs every minute from 8-10:59.
 
+#### Running in commandline (no docker)
+`pip install -r requirements.txt`
 
+OR
+
+`pip3 install -r  requirements.txt`
+
+*SKIP THIS IF USING DOCKER*
+
+If running locally and not in the docker you need to have google chrome installed. You then need to go download your google chrome driver that matches your google chrome version.
+http://chromedriver.chromium.org/downloads
+
+After you've downloaded it you need to include it in your PATH enviroment variable. How you will do this will depend on which OS you're running.
+
+# Desired way to communicate
+We support a couple of ways of getting notified. You can do any or all of the following:
+* Email (gmail only)
+* Pushover
+
+The default is Email only. *You must update the `.env` file if you wish email not to be sent*
+
+#### Setting up Gmail
+
+To get the email username and emailpassword listed below you need to get access to your gmail account. Here are the gmail links below on how to do that
+https://support.google.com/accounts/answer/185833?hl=en
+https://myaccount.google.com/apppasswords
+
+After you have the necessary information update the `.env` file with the following filling in your information where necessary.
+
+```python
+SEND_EMAIL=TRUE
+RECEIVING_EMAIL_ADDRESS="EMAIL YOU WISH TO EMAIL"
+EMAIL_ACCESS_USERNAME="YOUR EMAIL USERNAME"
+EMAIL_ACCESS_PASSWORD="YOUR EMAIL PASSWORD"
+```
+
+#### Setting up PushOver
+
+To get the email app and user token listed below you need to get access from you pushover account. Here are the links below on how to do that.
+https://pushover.net/api
+
+After you have the necessary information update the `.env` file with the following filling in your information where necessary.
+
+```python
+SEND_PUSHOVER=FALSE
+PUSHOVER_APP_TOKEN = ""
+PUSHOVER_USER_TOKEN = ""
+```
 
 
 # DEPENDENCIES
@@ -80,8 +97,6 @@ BeautifulSoup
 SELENIUM
 
 SELENIUM CHROME DRIVER -- http://chromedriver.chromium.org/downloads
-
-pprint
 
 # Known issues
 Chromium and the chrome driver can get out of sync. I still need to figure out how to load it in dynamically based on version.
