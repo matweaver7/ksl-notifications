@@ -27,13 +27,12 @@ server.starttls()
 server.login( emailUserName, emailPassword )
 
 opts = Options()
-opts.add_argument("--no-sandbox") #This make Chromium reachable
 opts.set_headless()
 opts.add_argument("--enable-javascript")
 
 
 assert opts.headless
-browser = Chrome(options=opts, executable_path='/usr/bin/chromedriver')
+browser = Chrome(options=opts)
 
 jsonListings = []
 toPrint = []

@@ -3,11 +3,17 @@ FROM ubuntu
 WORKDIR /var/tmp
 ADD crontab /etc/cron.d/ksl-cron
 ADD requirements.txt /var/tmp/include/requirements.txt
-ENV TZ=America/Denver
+ENV TZ 'America/Denver'
 
 RUN ["apt-get", "update"]
+RUN ["touch", "/etc/timezone"]
+RUN echo $TZ > /etc/timezone && \
+  apt-get update && apt-get install -y tzdata && \
+  rm /etc/localtime && \
+  ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+  dpkg-reconfigure -f noninteractive tzdata
 RUN ["apt-get", "install", "-y", "wget", "python3", "vim", "cron", "unzip"]
-RUN ["ln", "-snf", "/usr/share/zoneinfo/$TZ", "/etc/localtime", "&&", "echo", "$TZ", ">", "/etc/timezone"]
+RUN ["dpkg-reconfigure", "-f", "noninteractive", "tzdata"]
 RUN ["apt-get", "install", "-y", "chromium-browser"]
 RUN ["apt-get", "install", "-y", "python3-pip"]
 RUN ["wget", "https://chromedriver.storage.googleapis.com/85.0.4183.83/chromedriver_linux64.zip"]
