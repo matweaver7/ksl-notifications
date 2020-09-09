@@ -52,7 +52,8 @@ OR
 `pip3 install -r  requirements.txt`
 
 ##### Setting up Chromedriver
-**SKIP THIS IF USING DOCKER**
+
+*SKIP THIS IF USING DOCKER*
 
 If running locally and not in the docker you need to have google chrome installed. You then need to go download your google chrome driver that matches your google chrome version.
 http://chromedriver.chromium.org/downloads
