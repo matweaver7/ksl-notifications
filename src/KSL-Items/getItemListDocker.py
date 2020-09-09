@@ -44,7 +44,9 @@ listings = browser.find_elements_by_class_name('listing-item')
 
 
 for list in listings:
-
+	is_featured = "featured" in list.get_attribute("class")
+	if is_featured:
+		continue
 	listArray = {}
 	listArray["link"] = list.find_element_by_class_name("listing-item-link").get_attribute('href')
 	listArray["title"] = list.find_element_by_class_name("item-info-title-link").text
