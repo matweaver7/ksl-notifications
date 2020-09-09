@@ -2,11 +2,11 @@ This is a project that uses KSL, (it's like craiglist) and adds notification sup
 
 # HOW TO USE
 
-## USING DOCKER
+#### USING DOCKER
 
 `docker-compose up`
 
-## USING PYTHON
+#### USING PYTHON
 `python3 src/KSL-Items/getItemList.py`
 `python3 src/KSL-Items/getCar.py`
 
@@ -27,7 +27,7 @@ emailUserName = "YOUR USERNAME"
 emailPassword = "YOUR EMAIL PASSWORD"
 ```
 
-## Getting the link to search
+#### Getting the link to search
 
 Then  fill in the link getting the url after you've searched the results you're interested in. 
 	More explanaition:
@@ -38,20 +38,20 @@ Then  fill in the link getting the url after you've searched the results you're 
 
 `links = "https://classifieds.ksl.com/search/?keyword=pixel&zip=&miles=25&priceFrom=%2480&priceTo=%24350&marketType%5B%5D=Sale&city=&state=&sort=0"`
 
-## Setting up email
+#### Setting up email
 
 To get the email username and emailpassword listed above you need to get access to your gmail account. Here are the gmail links below on how to do that
 https://support.google.com/accounts/answer/185833?hl=en
 https://myaccount.google.com/apppasswords
 
-## Running in commandline (no docker)
+#### Running in commandline (no docker)
 `pip install -r requirements.txt`
 
 OR
 
 `pip3 install -r  requirements.txt`
 
-### Setting up Chromedriver
+##### Setting up Chromedriver
 **SKIP THIS IF USING DOCKER**
 
 If running locally and not in the docker you need to have google chrome installed. You then need to go download your google chrome driver that matches your google chrome version.
@@ -60,7 +60,7 @@ http://chromedriver.chromium.org/downloads
 After you've downloaded it you need to include it in your PATH enviroment variable. How you will do this will depend on which OS you're running.
 
 
-## Docker and Cron setup
+#### Docker and Cron setup
 
 To have it run regularaly using the cronjob you have to edit some more things.
 
