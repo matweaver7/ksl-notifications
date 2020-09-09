@@ -85,3 +85,6 @@ pprint
 
 # Known issues
 Chromium and the chrome driver can get out of sync. I still need to figure out how to load it in dynamically based on version.
+
+# Legal disclaimer
+I am not responsible with what you do with this. Meaning if you break KSL's terms and service...that's on you.
