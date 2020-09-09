@@ -16,7 +16,6 @@ filename = ROOT_DIR + "/itemsList.txt"
 yourEmail = "emailAddressToBeSentTo"
 emailUserName = "username"
 emailPassword = "password"
-#"miceatuwthdpados"
 
 # Go to: https://www.ksl.com/auto/
 # then enter in the search parameters you want. Then grab that url and put it here
