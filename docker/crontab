@@ -1,4 +1,4 @@
 # START CRON JOB LIST
-* 8-22 * * * python3 /var/tmp/src/KSL-Items/getItemListDocker.py > /var/cron.log
+* 8-22 * * * python3 /var/tmp/src/KSL-Items/getItemList.py > /var/cron.log
 #* 8-22 * * * python3 /var/tmp/src/KSL-Cars/getCarDocker.py > /var/cron.log
 # END CRON JOB LIST

@@ -6,38 +6,57 @@ import json
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from pprint import pprint
+from dotenv import load_dotenv
+import requests
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import http.client, urllib	
 
+### Global Functions
+def str_to_bool(s):
+	t = s.lower()
+	if t == 'true':
+		 return True
+	elif t == 'false':
+		 return False
+	else:
+		 raise ValueError # evil ValueError that doesn't tell you what the wrong value was
 
-
+### Other Config
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+FILENAME = ROOT_DIR + "/itemsList.txt"
+load_dotenv(dotenv_path=ROOT_DIR + "/../../.env")
 
-filename = ROOT_DIR + "/itemsList.txt"
-yourEmail = "emailAddressToBeSentTo"
-emailUserName = "username"
-emailPassword = "password"
+### FEATURES
+usePushover = str_to_bool(os.getenv("SEND_PUSHOVER"))
+sendEmail = str_to_bool(os.getenv("SEND_Email"))
 
-# Go to: https://www.ksl.com/auto/
-# then enter in the search parameters you want. Then grab that url and put it here
-links = "https://classifieds.ksl.com/search/FREE/FREE-items-only-no-businesses/keyword/weights"
+### Pushover Config
+pushoverAppToken = os.getenv("PUSHOVER_APP_TOKEN")
+pushoverUserToken = os.getenv("PUSHOVER_USER_TOKEN")
 
-server = smtplib.SMTP( "smtp.gmail.com", 587 )
-server.ehlo()
-server.starttls()
-server.login( emailUserName, emailPassword )
+### Email Config
+yourEmail = os.getenv("RECEIVING_EMAIL_ADDRESS")
+emailUserName = os.getenv("EMAIL_ACCESS_USERNAME")
+emailPassword = os.getenv("EMAIL_ACCESS_PASSWORD")
+
+### Link Config
+link = str(os.getenv("KSL_SEARCH_LINK"))
 
 opts = Options()
+opts.add_argument("--no-sandbox") #This make Chromium reachable
 opts.set_headless()
 opts.add_argument("--enable-javascript")
 
-
 assert opts.headless
-browser = Chrome(options=opts)
-
+if str_to_bool(os.getenv("USING_DOCKER")):
+	browser = Chrome(options=opts, executable_path='/usr/bin/chromedriver')
+else:
+	browser = Chrome(options=opts)
 jsonListings = []
 toPrint = []
 print("loading")
-browser.get(links)
+browser.get(link)
 print("finished Loading")
 listings = browser.find_elements_by_class_name('listing-item')
 
@@ -55,7 +74,7 @@ for list in listings:
 	jsonListings.append(listArray)
 
 
-with open(filename, "r+") as itemsFile:
+with open(FILENAME, "r+") as itemsFile:
 	if itemsFile.readline().rstrip() != "":
 		itemsFile.seek(0, 0)
 		item = json.loads(itemsFile.readline().rstrip())
@@ -66,10 +85,8 @@ with open(filename, "r+") as itemsFile:
 
 	for listing in jsonListings:
 		if item["title"] == listing["title"]:
-			print("found")
 			break
 		else:
-			print("not found")
 			toPrint.append(listing)
 	if len(toPrint) > 0:
 		content = itemsFile.read()
@@ -87,7 +104,7 @@ if len(toPrint) > 0:
 
 		title = "Title: " + str(listing["title"]) + "\n"
 		price = "Price: " + str(listing["price"]) + "\n"
-		address = "address: " + str(listing["address"]) + "\n"
+		address = "Location: " + str(listing["address"]) + "\n"
 		link = str(listing["link"]) + "\n"
 
 
@@ -119,9 +136,22 @@ if len(toPrint) > 0:
 
 		msg.attach(part1)
 		msg.attach(part2)
-		pprint(msg.as_string())
-		server.sendmail(yourEmail, yourEmail, msg.as_string())
 
-
+		if sendEmail:
+			server = smtplib.SMTP( "smtp.gmail.com", 587 )
+			server.ehlo()
+			server.starttls()
+			server.login( emailUserName, emailPassword )
+			server.sendmail(yourEmail, yourEmail, msg.as_string())
+		if usePushover:
+			conn = http.client.HTTPSConnection("api.pushover.net:443")
+			conn.request("POST", "/1/messages.json",
+			urllib.parse.urlencode({
+				"token": pushoverAppToken,
+				"user": pushoverUserToken,
+				"message": text,
+				"title": str(listing["price"]) + " - " + str(listing["title"]),
+			}), { "Content-type": "application/x-www-form-urlencoded" })
+			conn.getresponse()
 browser.close()
 browser.quit()
