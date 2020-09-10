@@ -10,7 +10,8 @@ from dotenv import load_dotenv
 import requests
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import http.client, urllib	
+import urllib.request
+from urllib.parse import urlparse	
 
 ### Global Functions
 def str_to_bool(s):
@@ -26,6 +27,7 @@ def str_to_bool(s):
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 FILENAME = ROOT_DIR + "/itemsList.txt"
 load_dotenv(dotenv_path=ROOT_DIR + "/../../.env")
+noImagePhrase = "noimage-bike"
 
 ### FEATURES
 usePushover = str_to_bool(os.getenv("SEND_PUSHOVER"))
@@ -143,21 +145,48 @@ if len(toPrint) > 0:
 		msg.attach(part2)
 
 		if sendEmail:
+			print("Sending Email!")
 			server = smtplib.SMTP( "smtp.gmail.com", 587 )
 			server.ehlo()
 			server.starttls()
 			server.login( emailUserName, emailPassword )
 			server.sendmail(yourEmail, yourEmail, msg.as_string())
 		if usePushover:
-			conn = http.client.HTTPSConnection("api.pushover.net:443")
-			conn.request("POST", "/1/messages.json",
-			urllib.parse.urlencode({
-				"token": pushoverAppToken,
-				"user": pushoverUserToken,
-				"html": 1,
-				"message": text,
-				"title": str(listing["price"]) + " - " + str(listing["title"]),
-			}), { "Content-type": "application/x-www-form-urlencoded" })
-			conn.getresponse()
+			print("Sending Pushover!")
+			img_filename = urlparse(listing["img"]).path.split("/")[-1]
+			session = requests.Session()
+			session.headers.update({
+				'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0',
+				'Accept-Language': 'en-US,en;q=0.5',
+				'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+				'Connection': 'keep-alive',
+				'Cache-Control': 'max-age=0',
+				'Upgrade-Insecure-Requests': '1'
+			})
+			
+			if noImagePhrase in img_filename:
+				r = session.post("https://api.pushover.net/1/messages.json", data = {
+						"token": pushoverAppToken,
+						"user": pushoverUserToken,
+						"html": 1,
+						"message": text,
+						"title": str(listing["price"]) + " - " + str(listing["title"])
+				})
+			else:
+				r = session.get(listing["img"], timeout=0.5)
+				if r.status_code == 200:
+					with open(ROOT_DIR + "/" + img_filename, 'wb') as f:
+						f.write(r.content)
+				r = session.post("https://api.pushover.net/1/messages.json", data = {
+					"token": pushoverAppToken,
+					"html": 1,
+					"user": pushoverUserToken,
+					"message": text,
+					"title": str(listing["price"]) + " - " + str(listing["title"]),
+				},
+				files = {
+					"attachment": ("image.jpg", open(ROOT_DIR + "/" + img_filename, "rb"), "image/jpeg")
+				})
+				os.remove(ROOT_DIR + "/" + img_filename)
 browser.close()
 browser.quit()
