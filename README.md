@@ -103,4 +103,4 @@ Chromium and the chrome driver can get out of sync. I still need to figure out h
 
 # Legal disclaimer
 I am not responsible with what you do with this. Meaning if you break KSL's terms and service...that's on you.
-But for reals though. Don't do it. This is just an implementation of a coding idea. Don't use it to break their TOS. They'll get mad at you and it won't be my fault.
+But for reals though. Don't do it. This is just an implementation of a coding idea for educational purposes only. Don't use it to break their TOS. They'll get mad at you and it won't be my fault.
