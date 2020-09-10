@@ -130,7 +130,11 @@ if len(toPrint) > 0:
 	<h2>Location: {address}</h2>
 """.format(link=listing["link"], img=listing["img"], title=listing["title"], price=listing["price"], address=listing["address"])
 
-		
+		text  = """
+	<a href="{link}">{title}</a>
+	{price}
+	{address}
+""".format(link=listing["link"], title=title, price=price, address=address)
 
 		part1 = MIMEText(text, 'plain')
 		part2 = MIMEText(htmlStart + body + htmlEnd, 'html')
@@ -150,6 +154,7 @@ if len(toPrint) > 0:
 			urllib.parse.urlencode({
 				"token": pushoverAppToken,
 				"user": pushoverUserToken,
+				"html": 1,
 				"message": text,
 				"title": str(listing["price"]) + " - " + str(listing["title"]),
 			}), { "Content-type": "application/x-www-form-urlencoded" })
