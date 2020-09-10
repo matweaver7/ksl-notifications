@@ -28,7 +28,7 @@ Then  fill in the link in the `.env` file after getting the url after you've sea
 		Grab url from page after search has completely loaded.
 		This is the url you fill in the links section.
 
-`KSL_SEARCH_LINK="https://classifieds.ksl.com/search/FREE/FREE-items-only-no-businesses"`
+`KSL_SEARCH_LINK="https://classifieds.ksl.com/search/Cycling"`
 
 
 #### Docker and Cron setup
